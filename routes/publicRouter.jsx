@@ -15,6 +15,18 @@ publicRouter.get("/", async (req,res,next) => {
         }
 })
 
+//Get by type of exercise 
+publicRouter.get("/search/type", async (req, res, next) => {
+    try {
+        const searchFilter = await Public.find({type: req.query.type})
+        return res.status(200).send(searchFilter)
+    }
+        catch(err){
+            res.status(500)
+            return next(err)
+        }
+})
+
 
 publicRouter.post("/", async (req,res,next) => {
     try {
@@ -39,6 +51,7 @@ publicRouter.put("/likes/:publicId", async (req,res,next) => {
             },
             {new: true}
         )
+        console.log(updateLikes)
         return res.status(201).send(updateLikes)
     }
         catch(err){

@@ -1,11 +1,12 @@
 import React, {useContext} from 'react'
-import { UserContext } from '../context/userProvider'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faThumbsUp, faThumbsDown} from '@fortawesome/free-solid-svg-icons'
+
 
 export default function VotesTracker(props){
 
-    const {user} = useContext(UserContext)
-
-    const {likes, dislikes, _id, likeExercise, dislikeExercise, exerciseId} = props
+    const {likes, dislikes, _id,  likeExercise, dislikeExercise} = props
+   
 
     function handleLikes(){
         likeExercise(_id)
@@ -15,15 +16,25 @@ export default function VotesTracker(props){
     }
 
     return (
-        <div>
-            <h3>Likes{likes.length}</h3>
-            <button onClick={handleLikes}>Likes</button>
-        
-            <h3>DisLikes{dislikes.length}</h3>
-            <button onClick={handleDislikes}>DisLike</button>
+        <div class="flex flex-row justify-center m-5 " >
+                <FontAwesomeIcon 
+                    icon={faThumbsUp}
+                    onClick={handleLikes}
+                    size="xl"
+                    fixedWidth
+                />
+                <h3>{likes?.length}</h3>         
+
+                <FontAwesomeIcon
+                    icon={faThumbsDown}
+                    onClick={handleDislikes}
+                    size="xl"
+                    fixedWidth
+                />
+                <h3>{dislikes?.length}</h3>            
+
             
         </div>
-        
 
     )
 

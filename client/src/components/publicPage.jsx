@@ -1,33 +1,29 @@
 import React, {useState, useContext, useEffect} from 'react'
-import { ExerciseContext } from '../context/exerciseProvider.jsx'
 import PublicList from './publicList.jsx'
-import axios from 'axios'
-
-
+import { UserContext } from '../context/userProvider.jsx'
 
 export default function PublicPage(props){
     
     const {
-
         getPublicExercises,
-          handleLikes,
-          handleDislikes,
-          publicExercises
-
-    } = useContext(ExerciseContext)
+        publicExercises,
+        likeExercise,
+        dislikeExercise
+    } = useContext(UserContext)
 
     useEffect(() => {   
         getPublicExercises()
-    })
+    }, [])
 
     return (
-        <div>
+        <div class='m-10'>
             <PublicList 
                 getPublicExercises = {getPublicExercises}
-                handleLikes = {handleLikes}
-                handleDislikes = {handleDislikes}
+                likeExercise = {likeExercise}
+                dislikeExercise = {dislikeExercise}
                 publicExercises = {publicExercises}
             />
+            
         </div>
     )
     

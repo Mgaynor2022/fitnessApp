@@ -5,19 +5,23 @@ export default function Navbar(props){
     const { logout } = props
 
     return(
-        <div>
-            <ul class="flex">
+        <header class ="flex flex-wrap items-center justify-between px-12 relative">
+            <div class="w-full md:w-auto">
+				<h1 class="block text-center text-black text-lg ">Fitness App</h1>
+			</div>
+            <ul class ="flex-1 flex justify-center md:justify-end list-reset">
                 <li class="mr-6">
-                    <Link to="/profilePage" class="text-blue-500 hover:text-blue-800">Profile</Link>
+                    <Link to="/profilePage" class=" hover:text-blue-800">Profile</Link>
                 </li>
                 <li class="mr-6">
-                    <Link to="/postForm"class="text-blue-500 hover:text-blue-800">Public</Link>
+                    <Link to="/publicPage"class=" hover:text-blue-800">Public</Link>
                 </li>
                 <li class="mr-6">
-                    <button onClick={logout} class="text-blue-500 hover:text-blue-800">Logout</button>
+                  <button onClick={logout} class=" hover:text-blue-800">Logout</button> 
                 </li>
             </ul>
-        </div>
+        </header>
     )
 
 }
+//to="/postForm"

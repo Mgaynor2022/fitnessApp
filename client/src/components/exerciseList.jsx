@@ -14,14 +14,14 @@ export default function ExerciseList(props){
                 {...exercise} 
                 key={exercise._id} 
                 deleteExercise={deleteExercise} 
-                handleSubmit={handleSubmit}/>
+                />
 
-                <VotesTracker 
+                {/* <VotesTracker 
                 {...exercise} 
                 key={exercise._id}  
                 likeExercise={likeExercise}
                 dislikeExercise={dislikeExercise}
-                />
+                /> */}
 
             </>
             

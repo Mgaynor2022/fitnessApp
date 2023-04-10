@@ -1,4 +1,4 @@
-import React, {useState, useContext, createContext} from "react"
+import React, {useState, useEffect, createContext} from "react"
 import axios from "axios"
 import { config } from "dotenv"
 
@@ -12,7 +12,7 @@ userAxios.interceptors.request.use(config => {
 })
 
 export default function UserProvider(props) {
-
+    
     const initState = {
         user: JSON.parse(localStorage.getItem("user")) || {}, // checks localStorage for user data if not {}. use JSON.parse cus of JSON.Stringfy()
         token: localStorage.getItem("token") || "", // checks to see if the token is in localStorage if not ""
@@ -81,47 +81,61 @@ export default function UserProvider(props) {
             }))
         })
         .catch(err => console.log(err))
-      }
-
-      function likeExercise(exerciseId){
-        userAxios.put(`http://localhost:3050/api/exercise/likes/${exerciseId}`)
-        .then(res => {
-            setUserState(prevState => ({
-                ...prevState,
-                exercises: prevState.exercises.map((prev) => 
-                    exerciseId !== prev._id ? prev : res.data // if the condition is true keep the data if false add the new data 
-                )
-            }))
-        })
-        .catch(err => console.log(err)) 
-    }
-
-    function dislikeExercise(exerciseId){
-        userAxios.put(`http://localhost:3050/api/exercise/dislikes/${exerciseId}`)
-        .then(res => {
-            setUserState(prevState => ({
-                ...prevState,
-                exercises: prevState.exercises.map((prev) => 
-                    exerciseId !== prev._id ? prev : res.data // if the condition is true keep the data if false add the new data 
-                )
-            }))
-        })
-        .catch(err => console.log(err))
     }
     
-      function deleteExercise(exerciseId){
-        userAxios.delete(`http://localhost:3050/api/exercise/${exerciseId}`)
-        .then(res => {
-            setUserState(prev => ({
-                ...prev,
-                exercises: prev.exercises.filter(exercise => exercise._id !== exerciseId)
-            }))
-            
-        })
-        .catch(err => handleAuthErr(err.response.data.errMsg))
-        
+    function deleteExercise(exerciseId){
+      userAxios.delete(`http://localhost:3050/api/exercise/${exerciseId}`)
+      .then(res => {
+          setUserState(prev => ({
+              ...prev,
+              exercises: prev.exercises.filter(exercise => exercise._id !== exerciseId)
+          }))
+          
+      })
+      .catch(err => handleAuthErr(err.response.data.errMsg))
+      
+    }
+    // Function for the public
+    const [publicExercises, setPublicExercises] = useState([])
+
+      function getPublicExercises(){
+        userAxios.get("http://localhost:3050/api/public")
+        .then(res => setPublicExercises(res.data))
+        .catch(err => console.log(err))
+      }
+
+      function searchFilter(e){
+        if(e.target.value === 'reset'){
+            getPublicExercises()
+        } else {
+        userAxios.get(`http://localhost:3050/api/public/search/type?type=${e.target.value}`)
+        .then(res => setPublicExercises(res.data))
+        .catch(err => console.log(err))
+        }
       }
   
+      function likeExercise(publicId){
+        userAxios.put(`http://localhost:3050/api/public/likes/${publicId}`)
+        .then(res => {
+          setPublicExercises(prevState => [...prevState, prevState.map(
+            prev => publicId !== prev._id ? prev : res.data
+          )])
+        })
+        .then(() => getPublicExercises())
+        .catch(err => console.log(err))
+      }
+  
+      function dislikeExercise(publicId){
+        userAxios.put(`http://localhost:3050/api/public/dislikes/${publicId}`)
+        .then(res => {
+          setPublicExercises(prevState => [...prevState, prevState.map(
+            prev => publicId !== prev._id ? prev : res.data
+          )])
+        })
+        .then(() => getPublicExercises())
+        .catch(err => console.log(err))
+      }
+    
       function addComments(commentPost){
         userAxios.post("http://localhost:3050/api/comments",commentPost)
         .then(res => {
@@ -147,8 +161,11 @@ export default function UserProvider(props) {
       function commentLikes(likeUpdate, commentId){
         userAxios.put(`http://localhost:3050/api/comments/likes/:commentId/${commentId}`,likeUpdate)
         
-
       }
+
+      useEffect(() => {
+        getPublicExercises()
+      }, [])
 
     return (
         <UserContext.Provider
@@ -164,7 +181,10 @@ export default function UserProvider(props) {
                 deleteExercise,
                 likeExercise,
                 dislikeExercise,
-                userAxios
+                getPublicExercises,
+                publicExercises,
+                searchFilter
+            
             }}>
                 {props.children}
         </UserContext.Provider>

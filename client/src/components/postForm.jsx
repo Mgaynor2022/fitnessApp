@@ -34,6 +34,8 @@ export default function PostExercise(props){
 
         return (
             <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
+                <p class='p-10'>Post Some of your favorite exercises you like to do for 
+                a particular muscle group or for any particular training style you like. </p>
                 <div lass="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                 <form onSubmit={handleSubmit}>
                     <label>Name of Exercise</label>
@@ -71,7 +73,7 @@ export default function PostExercise(props){
                         value={difficulty}
                         onChange={handleChange}
                     />
-                    <div>
+                    <div class='w=full h-full m-5' >
                         <button class="bg-black text-white w-full rounded">Post Exercise</button>
                     </div>          
                 </form>

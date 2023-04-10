@@ -13,7 +13,7 @@ export default function AuthForm(props){
     } = props
 
     return(
-        <section class="bg-gray-50 dark:bg-gray-900">
+        <section>
   <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
       
       <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
@@ -42,8 +42,8 @@ export default function AuthForm(props){
                       required=""/>
                   </div>
             
-                  <div class="flex items-center justify-between">
-                    <button class=" block w-full">{btnText}</button>
+                  <div class="flex items-center justify-center">
+                    <button class=" block w-40 bg-black text-white rounded">{btnText}</button>
                       
                   </div>
                     <p class="text-red-600 text-center">{errMsg}</p>

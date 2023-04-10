@@ -23,7 +23,7 @@ app.use("/auth", require("./routes/authRouter.jsx"))
 app.use('/api', jwt({ secret: process.env.SECRET, algorithms: ['HS256'] }))
 app.use('/api/exercise', require('./routes/exercisesRouter.jsx'))
 app.use("/api/comments", require("./routes/commentRouter.jsx"))
-app.use("/public", require("./routes/publicRouter.jsx"))
+app.use("/api/public", require("./routes/publicRouter.jsx"))
 
 //Error Handling 
 app.use((err,req,res,next) =>{

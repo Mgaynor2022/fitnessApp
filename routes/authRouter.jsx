@@ -68,15 +68,7 @@ async function userLogin({ req, res, next, user }) {
   }
 }
 
-// async function userLogin({ req, res, next, user }) {
-//   try {
-//     const token = jwt.sign(user.toObject(), process.env.SECRET);
-//     return res.status(200).send({ token, user });
-//   } catch (err) {
-//     res.status(500);
-//     return next(err);
-//   }
-// }
+
 
 module.exports = authRouter
 

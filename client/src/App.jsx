@@ -7,6 +7,8 @@ import UserProfile from './components/profilePage'
 import PostExercise from './components/postForm'
 import PrivateRoute from './components/protectedRoute'
 import './App.css'
+import PublicPage from './components/publicPage'
+import FilterForm from './components/filterForm'
 
 export default function App() {
   const {token, logout} = useContext(UserContext)
@@ -23,12 +25,16 @@ export default function App() {
           path="/profilePage"
           element={<PrivateRoute token={token} redirectTo="/">
               <UserProfile />
+              {/* <PublicPage /> */}
             </PrivateRoute>}
          />
          <Route 
-         path="/postForm"
+         path ="/publicPage"
+        //  path="/postForm"
          element={<PrivateRoute token={token} redirectTo="/">
-            <PostExercise/>
+            {/* <PostExercise/> */}
+            <FilterForm />
+            <PublicPage />
           </PrivateRoute>}
          />
       </Routes>

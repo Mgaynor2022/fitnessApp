@@ -38,29 +38,32 @@ export default function Auth(){
     }
     return(
         <div >
-            { !toggle ?
-            <>
-            <AuthForm 
-                handleChange={handleChange}
-                handleSubmit={handleSignUp}
-                inputs={inputs}
-                btnText= "Sign Up"
-                errMsg={errMsg}
-            />
-                <p class="text-center underline cursor" onClick={toggleForm}>Already A Member?</p>
-            </>
-            :
-            <>
-            <AuthForm 
-                handleChange={handleChange}
-                handleSubmit={handleLogin}
-                inputs={inputs}
-                btnText="Login"
-                errMsg={errMsg}
-            />
-            <p class="text-center underline cursor" onClick={toggleForm}>Not a Member</p>
-            </>  
-            }
+            <div class=''>
+                { !toggle ?
+                <>
+                <AuthForm 
+                    handleChange={handleChange}
+                    handleSubmit={handleSignUp}
+                    inputs={inputs}
+                    btnText= "Sign Up"
+                    errMsg={errMsg}
+                />
+                    <p class="text-center underline cursor-grabbing	" onClick={toggleForm}>Already A Member?</p>
+                </>
+                :
+                <>
+                <AuthForm 
+                    handleChange={handleChange}
+                    handleSubmit={handleLogin}
+                    inputs={inputs}
+                    btnText="Login"
+                    errMsg={errMsg}
+                />
+                <p class="text-center underline cursor-grabbing	" onClick={toggleForm}>Not a Member</p>
+                </>  
+                }
+            </div>
+
         </div>
     )
 }
