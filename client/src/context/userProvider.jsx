@@ -1,6 +1,6 @@
-import React, {useState, useEffect, createContext} from "react"
+import React, {useState, useEffect,  createContext} from "react"
 import axios from "axios"
-import { config } from "dotenv"
+
 
 export const UserContext = createContext()
 const userAxios = axios.create()
@@ -17,7 +17,7 @@ export default function UserProvider(props) {
         user: JSON.parse(localStorage.getItem("user")) || {}, // checks localStorage for user data if not {}. use JSON.parse cus of JSON.Stringfy()
         token: localStorage.getItem("token") || "", // checks to see if the token is in localStorage if not ""
         exercises:[],
-        comments:[],
+        // comments:[],
         errMsg: ""
     }
     
@@ -41,11 +41,12 @@ export default function UserProvider(props) {
         .then(res => {
             const {user, token} = res.data
             localStorage.setItem("token", token) // saving token so it wont be lost when page refresh
-            localStorage.setItem("user", JSON,stringify(user)) // if your saving complex data types
+            localStorage.setItem("user", JSON.stringify(user)) // if your saving complex data types
             // getUserData when user logs in there data will be displayed
-            getUserExercise()
             setUserState((prevUserState) => ({ ...prevUserState, user, token }));
+            // getUserExercise()
         })
+        // .catch(err => console.log(err))
         .catch((err) => handleAuthErr(err.response.data.errMsg));
     }
 
@@ -69,22 +70,34 @@ export default function UserProvider(props) {
         setUserState(prevState =>({
             ...prevState,
             errMsg: ""
-        }))
-    }
+          }))
+        }
+        // function for the profilePage
+        function getUserExercise(){
+          userAxios.get("http://localhost:3050/api/exercises/user")
+          .then(res => {
+              setUserState(prevState => ({
+                  ...prevState,
+                  exercises: res.data
+              }))
+          })
+          .catch(err => handleAuthErr(err.response.data.errMsg))
+        }
 
+ 
     function addExercise(exercisePost){
-        userAxios.post("http://localhost:3050/api/exercise", exercisePost)
-        .then(res => {
-            setUserState(prev => ({
-                ...prev,
-                exercises:[...prev.exercises, res.data]
-            }))
-        })
-        .catch(err => console.log(err))
-    }
+      userAxios.post("http://localhost:3050/api/exercises", exercisePost)
+      .then(res => {
+          setUserState(prev => ({
+              ...prev,
+              exercises:[...prev.exercises, res.data]
+          }))
+      })
+      .catch(err => console.log(err))
+  }
     
     function deleteExercise(exerciseId){
-      userAxios.delete(`http://localhost:3050/api/exercise/${exerciseId}`)
+      userAxios.delete(`http://localhost:3050/api/exercises/${exerciseId}`)
       .then(res => {
           setUserState(prev => ({
               ...prev,
@@ -95,95 +108,124 @@ export default function UserProvider(props) {
       .catch(err => handleAuthErr(err.response.data.errMsg))
       
     }
-    // Function for the public
-    const [publicExercises, setPublicExercises] = useState([])
 
-      function getPublicExercises(){
-        userAxios.get("http://localhost:3050/api/public")
-        .then(res => setPublicExercises(res.data))
-        .catch(err => console.log(err))
-      }
+    // Function for the public
+    const [searchData, setSearchData] = useState({
+      name:""
+    })
+
+    function handleChange (e){
+      const {name, value} = e.target
+      setSearchData(prevData=> {
+        return {
+          ...prevData,
+          [name]:value
+        }
+      })
+    }
+    
 
       function searchFilter(e){
         if(e.target.value === 'reset'){
-            getPublicExercises()
+            getExerciseData()
+            // searchGifUrl(e)
         } else {
-        userAxios.get(`http://localhost:3050/api/public/search/type?type=${e.target.value}`)
-        .then(res => setPublicExercises(res.data))
+        userAxios.get(`http://localhost:3050/api/test/search/bodyPart?bodyPart=${e.target.value}`)
+        .then(res => setExerciseData(res.data))
         .catch(err => console.log(err))
         }
+       
       }
-  
-      function likeExercise(publicId){
-        userAxios.put(`http://localhost:3050/api/public/likes/${publicId}`)
+     
+      function searchExercise(e){
+        e.preventDefault()
+        userAxios.get(`http://localhost:3050/api/test/search/name?name=${searchData.name}`)
+        .then(res => setExerciseData(res.data))
+        .catch(err => console.log(err))
+      }
+ 
+      function likeExercise(exerciseId){
+        userAxios.put(`http://localhost:3050/api/test/likes/${exerciseId}`)
         .then(res => {
-          setPublicExercises(prevState => [...prevState, prevState.map(
-            prev => publicId !== prev._id ? prev : res.data
+          setExerciseData(prevState => [...prevState, prevState.map(
+            prev => exerciseId !== prev._id ? prev : res.data
           )])
         })
-        .then(() => getPublicExercises())
+        .then(() => getExerciseData())
         .catch(err => console.log(err))
       }
   
-      function dislikeExercise(publicId){
-        userAxios.put(`http://localhost:3050/api/public/dislikes/${publicId}`)
+      function dislikeExercise(exerciseId){
+        userAxios.put(`http://localhost:3050/api/test/dislikes/${exerciseId}`)
         .then(res => {
-          setPublicExercises(prevState => [...prevState, prevState.map(
-            prev => publicId !== prev._id ? prev : res.data
+          setExerciseData(prevState => [...prevState, prevState.map(
+            prev => exerciseId !== prev._id ? prev : res.data
           )])
         })
-        .then(() => getPublicExercises())
+        .then(() => getExerciseData())
         .catch(err => console.log(err))
       }
     
-      function addComments(commentPost){
-        userAxios.post("http://localhost:3050/api/comments",commentPost)
-        .then(res => {
-            setUserState(prev({
-                ...prev,
-                comments:[...prev.comments, res.data]
-            }))
-        })
-        .catch(err => handleAuthErr(err.response.data.errMsg))
-      }
+      // function addComments(commentPost){
+      //   userAxios.post("http://localhost:3050/api/comments",commentPost)
+      //   .then(res => {
+      //       setUserState(prev({
+      //           ...prev,
+      //           comments:[...prev.comments, res.data]
+      //       }))
+      //   })
+      //   .catch(err => handleAuthErr(err.response.data.errMsg))
+      // }
 
-      function getUserExercise(){
-        userAxios.get("http://localhost:3050/api/exercise/user")
-        .then(res => {
-            setUserState(prevState => ({
-                ...prevState,
-                exercises: res.data
-            }))
-        })
-        .catch(err => handleAuthErr(err.response.data.errMsg))
-      }
 
-      function commentLikes(likeUpdate, commentId){
-        userAxios.put(`http://localhost:3050/api/comments/likes/:commentId/${commentId}`,likeUpdate)
+      // function commentLikes(likeUpdate, commentId){
+      //   userAxios.put(`http://localhost:3050/api/comments/likes/:commentId/${commentId}`,likeUpdate)
         
-      }
+      // }
+      const [exerciseData, setExerciseData] = useState([])
 
-      useEffect(() => {
-        getPublicExercises()
-      }, [])
+      function getExerciseData(){
+        userAxios.get("http://localhost:3050/api/test")
+        .then(res => setExerciseData(res.data))
+        .catch(err => console.log(err))
+      }
+   
+          // Building a Pagination feature 
+          const [currentPage, setCurrentPage] = useState(1)
+          const [numberPerPage, setNumberPerPage] = useState(50)
+          const dataLength = exerciseData.length
+
+          const lastPostIndex = currentPage * numberPerPage
+          const firstPostIndex = lastPostIndex - numberPerPage
+          const currentPost = exerciseData.slice(firstPostIndex, lastPostIndex)
 
     return (
         <UserContext.Provider
             value={{
                 ...userState,
+                getExerciseData,
+                exerciseData,
                 signUp,
                 login,
                 logout,
                 resetAuthErr,
                 addExercise,
-                addComments,
                 getUserExercise,
                 deleteExercise,
                 likeExercise,
                 dislikeExercise,
-                getPublicExercises,
-                publicExercises,
-                searchFilter
+                handleChange,
+                searchData,
+               searchExercise,
+                searchFilter,
+                 currentPost,
+                 setCurrentPage,
+                 lastPostIndex,
+                 firstPostIndex,
+                 dataLength,
+                 numberPerPage,
+                 currentPage,
+                
             
             }}>
                 {props.children}

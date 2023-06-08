@@ -1,7 +1,5 @@
 import React, {useContext} from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faThumbsUp, faThumbsDown} from '@fortawesome/free-solid-svg-icons'
-
+import {FaThumbsUp, FaThumbsDown} from 'react-icons/fa' 
 
 export default function VotesTracker(props){
 
@@ -16,20 +14,18 @@ export default function VotesTracker(props){
     }
 
     return (
-        <div class="flex flex-row justify-center m-5 " >
-                <FontAwesomeIcon 
-                    icon={faThumbsUp}
+        <div id='votesTracker' className=" flex flex-row justify-center m-5" >
+                <FaThumbsUp className='cursor-pointer'
                     onClick={handleLikes}
-                    size="xl"
-                    fixedWidth
+                    size="1.5rem"
+                    
                 />
-                <h3>{likes?.length}</h3>         
+                <h3 className='block text-black mr-5'>{likes?.length}</h3>         
 
-                <FontAwesomeIcon
-                    icon={faThumbsDown}
+                <FaThumbsDown className='cursor-pointer'
                     onClick={handleDislikes}
-                    size="xl"
-                    fixedWidth
+                    size="1.5rem"
+                    
                 />
                 <h3>{dislikes?.length}</h3>            
 

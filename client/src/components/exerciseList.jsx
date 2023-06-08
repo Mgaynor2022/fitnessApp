@@ -1,33 +1,25 @@
 import React from 'react'
-import UserExercises from './userExercises'
-import VotesTracker from './votesTracker'
-
+import PublicExercises from './publicExercises'
+import {TiDeleteOutline} from 'react-icons/ti'
 
 export default function ExerciseList(props){
-    const {exercises, deleteExercise, likeExercise, dislikeExercise, handleSubmit} = props
+    const {exercises, deleteExercise} = props
 
     return (
-        <div>
-            {exercises.map(exercise => 
-            <>
-                <UserExercises 
-                {...exercise} 
-                key={exercise._id} 
-                deleteExercise={deleteExercise} 
-                />
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2'>
+            {exercises && exercises.map(exercise =>
 
-                {/* <VotesTracker 
-                {...exercise} 
-                key={exercise._id}  
-                likeExercise={likeExercise}
-                dislikeExercise={dislikeExercise}
-                /> */}
+             <div className='relative'>
+                 <TiDeleteOutline className='absolute cursor-pointer hover:text-red-500' onClick={() => deleteExercise(exercise._id)} size='2.5rem'/>
+                 <PublicExercises
+                 {...exercise}
+                 
+                 />
+             </div>
 
-            </>
-            
-            )}
-                
-        </div>
+        )}     
+   
+    </div>
     )
 
 }

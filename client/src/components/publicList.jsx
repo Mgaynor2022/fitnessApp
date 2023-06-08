@@ -1,29 +1,36 @@
 import React from 'react'
 import PublicExercises from './publicExercises'
-import VotesTracker from './votesTracker'
+import {MdOutlineFavoriteBorder} from 'react-icons/md'
 
 
 export default function PublicList(props){
 
-    const {getPublicExercises, dislikeExercise, likeExercise, publicExercises,} = props
+    const {
+        dislikeExercise,
+         likeExercise,
+         getExerciseData,
+         exerciseData,
+         currentPost,
+         _id,
+         addExercise,
+         
 
+       
+        } = props
+    
+    
     return (
-        <div class=" grid grid-cols-4 gap-4">
-            {publicExercises.map( exercise =>
-                <div>
+        <div key={_id} className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+            {currentPost && currentPost.map( exercise =>
+                <div className='relative'>
+                    <MdOutlineFavoriteBorder className='absolute cursor-pointer hover:text-blue-500 'onClick={() => addExercise(exercise)} size='2rem' />
                     <PublicExercises
                         {...exercise} 
-                        publicExercises = {publicExercises}
                         likeExercise = {likeExercise} 
                         dislikeExercise = {dislikeExercise}
+                        getExerciseData = {getExerciseData}
+                        
                     />
-                    <VotesTracker
-                        {...exercise} 
-                        key={exercise._id}  
-                        likeExercise={likeExercise}
-                        dislikeExercise={dislikeExercise}
-                    />
-
                 </div>
                 
             )}

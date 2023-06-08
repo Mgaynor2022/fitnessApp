@@ -2,44 +2,111 @@
 @tailwind components;
 @tailwind utilities;
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  
+  /* padding: 2rem; */
+  margin: auto;
   text-align: center;
+  background-color: #f1f1f1;
+  
+}
+#filter--btn, #page--btn {
+  font-weight: 600;
+  border: 2px solid #183643;
+
+ margin: 0.3rem;
+  font-size: 1rem;
+  transition-duration: 300ms;
+ 
+  padding: 5px;
+  color: #606060;
+  background-color: #fff;
+  width: auto;
+  box-shadow: 4px 4px #183643;
 }
 
-/* .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+#pagination{
+  display: flex;
+  justify-content: center;
+  margin: 1rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+#filter--btn:is(:hover, :focus)
+{
+  cursor: pointer;
+  color: white;
+  background-color: #f86250;
+  box-shadow: 0 0;
+}
+#page--btn:is(:hover, :focus)
+{
+  cursor: pointer;
+  color: white;
+  background-color: #f86250;
+  box-shadow: 0 0;
+}
+#page--btn.active
+{
+  color: white;
+  background-color: #f86250;
+  box-shadow: 0 0;
+}
+#search--btn{
+  font-weight: 600;
+  border: 2px solid #183643;
+
+  margin: 0.3rem;
+  font-size: 1rem;
+  transition-duration: 300ms;
+ 
+  padding: 5px;
+  color: #606060;
+  background-color: #fff;
+  width: auto;
+  box-shadow: 4px 4px #183643;
+
+}
+#search--btn:is(:hover, :focus) {
+  cursor: pointer;
+  color: white;
+  background-color: #f86250;
+  box-shadow: 0 0;
+}
+@media only screen and (max-width: 450px) {
+ #card--btn{
+  font-size: smaller;
+  width:auto;
+  
+  
+ }
+ #card-container{
+  
+  align-items: center;
+  
+ }
+ #arrows {
+  
+ }
+ #slider{
+  
+ }
+ #test{
+  
+ }
+ #loginImg{
+  display:none
+ }
+ #aboutApp{
+  display: none;
+ }
+ #mobileLogin{
+
+ }
+
+}
+@media only screen and (max-width: 780px) {
+  #logo{
+    display:none;
   }
-  to {
-    transform: rotate(360deg);
-  }
+
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-} */

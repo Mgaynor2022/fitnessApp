@@ -1,27 +1,43 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useContext, useEffect} from 'react'
 import PublicList from './publicList.jsx'
+// import SearchExercise from './searchExercise.jsx'
 import { UserContext } from '../context/userProvider.jsx'
 
 export default function PublicPage(props){
     
     const {
-        getPublicExercises,
         publicExercises,
         likeExercise,
-        dislikeExercise
+        dislikeExercise,
+        getExerciseData,
+        exerciseData,
+        handleChange,
+        searchData,
+        currentPost,
+        addExercise,
+        exercises,
+       
     } = useContext(UserContext)
 
-    useEffect(() => {   
-        getPublicExercises()
-    }, [])
+    useEffect(() => {
+        // getPublicExercises()
+        getExerciseData()
+        // searchGiftUrl()
+        console.log("loaded")
+      }, [])
 
     return (
-        <div class='m-10'>
+        <div className='p-10'>
             <PublicList 
-                getPublicExercises = {getPublicExercises}
                 likeExercise = {likeExercise}
                 dislikeExercise = {dislikeExercise}
                 publicExercises = {publicExercises}
+                getExerciseData = {getExerciseData}
+                exerciseData = {exerciseData}
+                currentPost = {currentPost}
+                addExercise = {addExercise}
+                exercises = {exercises}
+               
             />
             
         </div>
