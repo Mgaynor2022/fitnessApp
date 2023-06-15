@@ -22,7 +22,7 @@ export default function FilterForm(){
             
                 <MdChevronLeft id='arrows'
                     onClick={slideLeft} size={60}
-                    className='opacity-50 cursor-pointer hover:opacity-100 m-2 md:m-10' />
+                    className='opacity-50 cursor-pointer hover:opacity-100 m-2 md:m-10 ' />
                     <div onClick={searchFilter} id='slider'
                         className='m-2 md:m-10 overflow-x-hidden scroll whitespace-nowrap scroll-smooth  '>
                         <button id='filter--btn' value="reset">All Exercises</button>

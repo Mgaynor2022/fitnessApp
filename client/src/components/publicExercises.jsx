@@ -1,5 +1,7 @@
-import React from 'react'
+
+import React, {useContext} from 'react'
 import VotesTracker from './votesTracker'
+import { UserContext } from '../context/userProvider'
 
 
 export default function PublicExercises(props){
@@ -15,9 +17,13 @@ export default function PublicExercises(props){
         likeExercise, 
         dislikeExercise,
         gifUrl,
-        addExercise
+        
+       
         } = props
 
+//         const {imgUrl} =  useContext(UserContext)
+
+// console.log(imgUrl)
 
         return (
             <div id='exercises' key={_id} className="h-full bg-white border-red-500 border-t-4  rounded-lg shadow ">

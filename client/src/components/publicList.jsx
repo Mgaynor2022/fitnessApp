@@ -13,6 +13,7 @@ export default function PublicList(props){
          currentPost,
          _id,
          addExercise,
+         imgUrl
          
 
        
@@ -29,11 +30,13 @@ export default function PublicList(props){
                         likeExercise = {likeExercise} 
                         dislikeExercise = {dislikeExercise}
                         getExerciseData = {getExerciseData}
+                        // {...imgUrl}
                         
-                    />
+                        />
                 </div>
                 
-            )}
+                )}
+            
         </div>
     )
 }

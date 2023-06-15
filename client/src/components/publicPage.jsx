@@ -16,13 +16,15 @@ export default function PublicPage(props){
         currentPost,
         addExercise,
         exercises,
+        imgUrl,
+        getGifUrl
        
     } = useContext(UserContext)
 
     useEffect(() => {
         // getPublicExercises()
         getExerciseData()
-        // searchGiftUrl()
+       
         console.log("loaded")
       }, [])
 
@@ -37,6 +39,8 @@ export default function PublicPage(props){
                 currentPost = {currentPost}
                 addExercise = {addExercise}
                 exercises = {exercises}
+                imgUrl ={imgUrl}
+               
                
             />
             

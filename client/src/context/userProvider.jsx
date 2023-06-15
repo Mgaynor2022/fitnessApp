@@ -123,26 +123,40 @@ export default function UserProvider(props) {
         }
       })
     }
-    
-
-      function searchFilter(e){
-        if(e.target.value === 'reset'){
-            getExerciseData()
-            // searchGifUrl(e)
-        } else {
-        userAxios.get(`http://localhost:3050/api/test/search/bodyPart?bodyPart=${e.target.value}`)
-        .then(res => setExerciseData(res.data))
-        .catch(err => console.log(err))
-        }
-       
+  
+function searchFilter(e){
+  if(e.target.value === 'reset'){
+      getExerciseData()
+      // searchGifUrl(e)
+  } else {
+  userAxios({
+      method: 'GET',
+      url: `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${e.target.value}`,
+      headers: {
+        'X-RapidAPI-Key': 'c07807c78emsh2a199158940a00cp15690cjsn0434460128cf',
+        'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
       }
-     
-      function searchExercise(e){
-        e.preventDefault()
-        userAxios.get(`http://localhost:3050/api/test/search/name?name=${searchData.name}`)
-        .then(res => setExerciseData(res.data))
-        .catch(err => console.log(err))
+  })
+  .then(res => setExerciseData(res.data))
+    .catch(err => console.log(err))
+  }
+ 
+}   
+function searchExercise(e){
+  e.preventDefault()
+  userAxios(
+    {
+      method: 'GET',
+      url: `https://exercisedb.p.rapidapi.com/exercises/name/${searchData.name}`,
+      headers: {
+        'X-RapidAPI-Key': 'c07807c78emsh2a199158940a00cp15690cjsn0434460128cf',
+        'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
       }
+    }
+  )
+  .then(res => setExerciseData(res.data))
+  .catch(err => console.log(err))
+}
  
       function likeExercise(exerciseId){
         userAxios.put(`http://localhost:3050/api/test/likes/${exerciseId}`)
@@ -185,9 +199,19 @@ export default function UserProvider(props) {
       const [exerciseData, setExerciseData] = useState([])
 
       function getExerciseData(){
-        userAxios.get("http://localhost:3050/api/test")
-        .then(res => setExerciseData(res.data))
-        .catch(err => console.log(err))
+        // userAxios.get("http://localhost:3050/api/test")
+        // .then(res => setExerciseData(res.data))
+        // .catch(err => console.log(err))
+        userAxios({
+              method: 'GET',
+              url: 'https://exercisedb.p.rapidapi.com/exercises',
+              headers: {
+                'X-RapidAPI-Key': 'c07807c78emsh2a199158940a00cp15690cjsn0434460128cf',
+                'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
+              }
+            })
+            .then(res => setExerciseData(res.data))
+            .catch(err => console.log(err))
       }
    
           // Building a Pagination feature 
@@ -225,6 +249,7 @@ export default function UserProvider(props) {
                  dataLength,
                  numberPerPage,
                  currentPage,
+               
                 
             
             }}>

@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 #root {
-  
+  max-width: 1400px;
   /* padding: 2rem; */
   margin: auto;
   text-align: center;
