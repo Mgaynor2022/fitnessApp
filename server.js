@@ -14,8 +14,6 @@ app.use(cors({
     origin: true
   }))
 
-
-
 //Routes 
 // app.use("/exercises", require("./routes/exercisesRouter.jsx"))
 app.use("/local/auth", require("./routes/authRouter.jsx"))
@@ -31,6 +29,8 @@ app.use((err,req,res,next) =>{
     console.log(err)
     return res.send({errMsg:err.message})
   })
+  
+  app.use(express.static(path.join(__dirname, "client", "dist")))
 
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
