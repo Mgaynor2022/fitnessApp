@@ -22,9 +22,10 @@ export default function UserProvider(props) {
     }
     
     const [userState, setUserState] = useState(initState)
+    console.log(userState)
     
     function signUp(credentials){
-        axios.post("http://localhost:3050/auth/signup", credentials)
+        axios.post("local/auth/signup", credentials)
         .then(res => {
             const {user,token} = res.data
             // // saving the token so when the page refresh data is saved 
@@ -37,7 +38,7 @@ export default function UserProvider(props) {
     }
   
     function login(credentials){
-        axios.post("http://localhost:3050/auth/login", credentials)
+        axios.post("local/auth/login", credentials)
         .then(res => {
             const {user, token} = res.data
             localStorage.setItem("token", token) // saving token so it wont be lost when page refresh
@@ -74,7 +75,7 @@ export default function UserProvider(props) {
         }
         // function for the profilePage
         function getUserExercise(){
-          userAxios.get("http://localhost:3050/api/exercises/user")
+          userAxios.get("/api/exercises/user")
           .then(res => {
               setUserState(prevState => ({
                   ...prevState,
@@ -86,7 +87,7 @@ export default function UserProvider(props) {
 
  
     function addExercise(exercisePost){
-      userAxios.post("http://localhost:3050/api/exercises", exercisePost)
+      userAxios.post("/api/exercises", exercisePost)
       .then(res => {
           setUserState(prev => ({
               ...prev,
@@ -97,7 +98,7 @@ export default function UserProvider(props) {
   }
     
     function deleteExercise(exerciseId){
-      userAxios.delete(`http://localhost:3050/api/exercises/${exerciseId}`)
+      userAxios.delete(`/api/exercises/${exerciseId}`)
       .then(res => {
           setUserState(prev => ({
               ...prev,
@@ -159,7 +160,7 @@ function searchExercise(e){
 }
  
       function likeExercise(exerciseId){
-        userAxios.put(`http://localhost:3050/api/test/likes/${exerciseId}`)
+        userAxios.put(`/api/test/likes/${exerciseId}`)
         .then(res => {
           setExerciseData(prevState => [...prevState, prevState.map(
             prev => exerciseId !== prev._id ? prev : res.data
@@ -170,7 +171,7 @@ function searchExercise(e){
       }
   
       function dislikeExercise(exerciseId){
-        userAxios.put(`http://localhost:3050/api/test/dislikes/${exerciseId}`)
+        userAxios.put(`/api/test/dislikes/${exerciseId}`)
         .then(res => {
           setExerciseData(prevState => [...prevState, prevState.map(
             prev => exerciseId !== prev._id ? prev : res.data

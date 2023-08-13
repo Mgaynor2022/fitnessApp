@@ -3,6 +3,7 @@ const app = express()
 require("dotenv").config()
 const morgan = require("morgan")
 const mongoose = require("mongoose")
+const path = require("path")
 const cors = require("cors")
 var { expressjwt: jwt } = require("express-jwt")
 
@@ -13,17 +14,17 @@ app.use(cors({
     origin: true
   }))
 
-mongoose.connect('mongodb://localhost:27017/fitnessData',{useNewUrlParser: true})
-.then(()=> console.log("Connected to MongoDB"))
-.catch(err => console.error(err));
+
 
 //Routes 
 // app.use("/exercises", require("./routes/exercisesRouter.jsx"))
-app.use("/auth", require("./routes/authRouter.jsx"))
+app.use("/local/auth", require("./routes/authRouter.jsx"))
 app.use('/api', jwt({ secret: process.env.SECRET, algorithms: ['HS256'] }))
-app.use('/api/exercise', require('./routes/exercisesRouter.jsx'))
+app.use('/api/exercises', require('./routes/exercisesRouter.jsx'))
 app.use("/api/comments", require("./routes/commentRouter.jsx"))
 app.use("/api/public", require("./routes/publicRouter.jsx"))
+app.use("/api/test", require("./routes/PublicExerciseRoute.jsx"))
+
 
 //Error Handling 
 app.use((err,req,res,next) =>{
@@ -31,6 +32,23 @@ app.use((err,req,res,next) =>{
     return res.send({errMsg:err.message})
   })
 
-  app.listen(3050, () => {
-    console.log("Server Is Running")
-})
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+  });
+
+mongoose.set('strictQuery', false);
+mongoose.connect(process.env.MONGODB_URI)
+    .then(() => {
+        console.log('Connected to database');
+
+        app.listen(3050, (err) => {
+            if (err) {
+                throw new Error(err);
+            }
+            console.log('Server is Successfully Running, and App is listening on port ' + 3050);
+        });
+    })
+    .catch(err => {
+        console.error(err);
+    });
+

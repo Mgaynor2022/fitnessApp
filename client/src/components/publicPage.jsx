@@ -21,6 +21,8 @@ export default function PublicPage(props){
        
     } = useContext(UserContext)
 
+    
+
     useEffect(() => {
         // getPublicExercises()
         getExerciseData()

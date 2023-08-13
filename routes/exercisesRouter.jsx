@@ -2,6 +2,7 @@ const express = require("express")
 const exercisesRouter = express.Router()
 const Exercise = require("../models/exerciseSchema.jsx")
 const mongoose = require("mongoose")
+
 //Get All
 exercisesRouter.get("/", async (req, res, next) => {
     try {
@@ -25,7 +26,7 @@ exercisesRouter.get("/user", async (req, res, next) => {
         res.status(500)
         return next(err)
     }
-})
+})     
 // Post a exercise
 exercisesRouter.post("/", async (req, res, next) => {
     try {
@@ -33,11 +34,13 @@ exercisesRouter.post("/", async (req, res, next) => {
         const newExercise = new Exercise(req.body)
         const saveExercise = await newExercise.save()
         return res.status(201).send(saveExercise)
+        
     } 
         catch (err){
         res.status(500)
         return next(err)
     }
+   
 })
 // Update post 
 exercisesRouter.put("/:exerciseId", async (req, res, next) => {
