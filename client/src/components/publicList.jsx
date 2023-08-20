@@ -9,11 +9,11 @@ export default function PublicList(props){
         dislikeExercise,
          likeExercise,
          getExerciseData,
-         exerciseData,
+        //  exerciseData,
          currentPost,
          _id,
          addExercise,
-         imgUrl
+        //  imgUrl
          
 
        

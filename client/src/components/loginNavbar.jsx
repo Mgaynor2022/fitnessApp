@@ -1,5 +1,4 @@
 import React from 'react'
-import {MdOutlineFitnessCenter} from 'react-icons/md'
 
 
 export default function LoginNavbar(){
